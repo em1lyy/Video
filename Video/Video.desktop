@@ -1,0 +1,16 @@
+[Desktop Entry]
+Name=Video
+GenericName=Video/Movie Player
+GenericName[de]=Video/Filmwiedergabe
+Comment=Watch your Videos
+Comment[de]=Videos ansehen
+
+Icon=video
+
+Type=Application
+Categories=Qt;Player;AudioVideo;
+
+Exec=/usr/share/Video/Video
+StartupNotify=false
+Terminal=false
+MimeType=video/mpeg;video/x-ffv;video/x-wmv;video/x-h264;video/x-h263;video/x-flv;video/mp4;video/x-ms-wmv;video/x-msvideo;video/quicktime;video/3gpp;video/webm;
