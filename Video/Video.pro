@@ -9,6 +9,7 @@ QT       += core gui multimedia multimediawidgets
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = Video
+TARGET.path = $$PREFIX/
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -33,11 +34,11 @@ HEADERS += \
 FORMS += \
         mainwindow.ui
 
-video.path = /usr/share/Video
+video.path = $$PREFIX/usr/share/Video
 video.files += Video
 video.files += Video.desktop
 
-desktop.path = /usr/share/applications
+desktop.path = $$PREFIX/usr/share/applications
 desktop.files += Video.desktop
 
 INSTALLS += \
