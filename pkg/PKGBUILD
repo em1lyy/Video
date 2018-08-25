@@ -1,0 +1,26 @@
+# Maintainer: Jonas Jaguar <jonasjaguar@jagudev.net>
+pkgname=jagudev-video
+pkgver=1.0
+pkgrel=1
+pkgdesc="The default video player for JaguOS"
+arch=('x86_64')
+url="https://jagudev.net"
+license=('GPL3')
+depends=(qt5-base qt5-multimedia)
+makedepends=(gcc make)
+options=()
+source=("https://github.com/jonasjaguar/Video/archive/$pkgver.tar.gz")
+md5sums=('eb1611bc122492015894ac903a1a27e0')
+validpgpkeys=()
+
+
+build() {
+	cd "$srcdir/Video-$pkgver/Video"
+	qmake ./Video.pro -spec linux-g++ && /usr/bin/make qmake_all
+	make
+}
+
+package() {
+	cd "$srcdir/Video-$pkgver/Video"
+	make INSTALL_ROOT="$pkgdir" install
+}
