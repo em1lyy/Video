@@ -13,8 +13,8 @@ install:
   - source /opt/qt512/bin/qt512-env.sh
 
 script:
-  - cd Music/
-  - /opt/qt512/bin/qmake ./Music.pro -spec linux-g++ && /usr/bin/make qmake_all
+  - cd Video/
+  - /opt/qt512/bin/qmake ./Video.pro -spec linux-g++ && /usr/bin/make qmake_all
   - make
 
 after_success:
