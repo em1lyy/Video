@@ -9,14 +9,25 @@ before_install:
   - sudo apt-get update
 
 install:
-  - sudo apt-get install qt512base qt512multimedia qt512imageformats qt512translations libpulse-dev libgl1-mesa-dev libgl1-mesa-glx -y
+  - sudo apt-get install qt512base qt512multimedia qt512imageformats qt512translations libpulse-dev libgl1-mesa-dev libgl1-mesa-glx fakeroot -y
   - source /opt/qt512/bin/qt512-env.sh
 
 script:
   - cd Video/
   - /opt/qt512/bin/qmake ./Video.pro -spec linux-g++ && /usr/bin/make qmake_all
   - make
-
+  - cd ../
+  - cd pkg/
+  - wget https://gist.githubusercontent.com/jonasjaguar/3cafb962541cf1064771ba54e4cf0217/raw/e76882caa4968b46715ac06a23174b97e9329a69/makedeb
+  - chmod +x makedeb
+  - sudo ./makedeb --nodeps
+  - DEBNAME=$(find . -name jagudev-video_*)
+  - cp $DEBNAME ../jagudev-video_current.deb
+  - cd ..
+  - cd Video/
+  - tar cfvz ../Video.tar.gz Video Video.desktop
+  - cd ..
+  
 after_success:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
@@ -25,6 +36,18 @@ after_failure:
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
   - ./send.sh failure $WEBHOOK_URL
+
+deploy:
+  provider: releases
+  api_key:
+    secure: NyyPEGQNacI0MY8cutyJVuArobMwkQ1Ss5tju+1oWJgoD10mutJxI73ZeCX4wes5dvZ/tL7UMEJT8LQA9XgOnf8ImFScBVsTipRjCnMgH9MvsThDRqjP/HMNV9HQoxMaFG7FTVXTB4wXlfaegrER3UgN14hHqMqpKse+HDA8Eh94XDzx1I+FaX+/EMOT/GOwFvZHwao4NrNdQXGwjMOdtDRs0bxkstxaF4gQtbAyL4U3qaHeHRWasYnOgd/E8u7r8TwF2YqCzUwEUnNJYB1jz7Co4xfmnYVpcCy2911CTYwOUcr5qO6VXq9Lh9pjWH7GLyJzvLU/1TnoEf6NvTTNOZNR/dMKWVGQ9Htad2ga29J+5lKmSTZZ01rsGs3ST58Knyqea0S81AJRd4lX4rYfszfc2tAOoddfE0Ua24ZMMv2rZ/RvmhTlsg2QCUZcWEkMhQxulKu1GPzjExM6x2QPtTxRuJbtB96QcVaSzrlYnoma0MNvOlaLUcuUMGDrbKtzvWY4sUW2kSbhaQwarRMmEmrGINgScOOgAd9WyXe/+wZpQ6gYa79FiqWgRc5OIRZPrRAjOWlu1arUDwjFgd2P7p7yAW7oy6kfis9QENiquxlgENw3b9CtPM9Bhhw8/2vx8t6jgJKXerccjyPJ+HnfYUgAAjmXTWTkQ2x5u/DqDFk=
+  file:
+    - Video.tar.gz
+    - jagudev-video_current.deb
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: jonasjaguar/Video
 
 notifications:
   email:
