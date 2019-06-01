@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui multimedia multimediawidgets
+QT       += core gui multimedia multimediawidgets dbus
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,8 +28,13 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp
 
+TRANSLATIONS = \
+         de.ts \
+         fr.ts
+
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    video-common-dbus.h
 
 FORMS += \
         mainwindow.ui
@@ -44,3 +49,6 @@ desktop.files += Video.desktop
 INSTALLS += \
     video \
     desktop
+
+RESOURCES += \
+    video_resources.qrc

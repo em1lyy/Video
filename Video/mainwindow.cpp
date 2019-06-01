@@ -11,6 +11,8 @@
 #include <string>
 #include <iostream>
 
+using namespace std;
+
 MainWindow::MainWindow(QWidget *parent, std::string path) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -71,6 +73,16 @@ MainWindow::MainWindow(QWidget *parent, std::string path) :
     connect(this->ui->fullscreenButton, &QPushButton::clicked, this, &MainWindow::toggleFullscreen);
 }
 
+void MainWindow::loadVideoFromFileAndPlayIt(QString filename)
+{
+    cout << filename.toStdString() << endl;
+    this->player->setMedia(QUrl::fromLocalFile(filename));
+    this->playing = true;
+    this->player->play();
+    connect(player, &QMediaPlayer::metaDataAvailableChanged, this, &MainWindow::updateMetaData);
+    updateMetaData();
+}
+
 void MainWindow::togglePlayingState()
 {
     if (playing)
@@ -110,8 +122,18 @@ void MainWindow::updateMetaData()
         QSize res = this->player->metaData(QMediaMetaData::Resolution).value<QSize>();
         if (res.width() > 0 && res.height() > 0)
         {
-            this->setFixedSize(res.width(), res.height());
+            this->resize(res.width(), res.height());
         }
+        else {
+            QScreen *screen = QGuiApplication::primaryScreen();
+            QRect  screenGeometry = screen->geometry();
+            this->resize(screenGeometry.width() / 2, screenGeometry.height() / 2);
+        }
+    }
+    else {
+        QScreen *screen = QGuiApplication::primaryScreen();
+        QRect  screenGeometry = screen->geometry();
+        this->resize(screenGeometry.width() / 2, screenGeometry.height() / 2);
     }
 }
 
@@ -142,7 +164,6 @@ void MainWindow::setPosition(int position)
     // avoid seeking when the slider value change is triggered from updatePosition()
     if (qAbs(player->position() - position) > 99)
     {
-        qDebug("Setting position!");
         player->setPosition(position);
     }
 }
@@ -196,6 +217,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 void MainWindow::closeEvent (QCloseEvent *event)
 {
     delete this;
+    qApp->exit();
 }
 
 MainWindow::~MainWindow()

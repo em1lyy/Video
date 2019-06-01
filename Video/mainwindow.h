@@ -40,6 +40,9 @@ public:
     explicit MainWindow(QWidget *parent = 0, std::string path = "");
     ~MainWindow();
 
+public slots:
+    void loadVideoFromFileAndPlayIt(QString filename);
+
 private:
     Ui::MainWindow *ui;
 };

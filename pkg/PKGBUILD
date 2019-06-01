@@ -1,6 +1,6 @@
 # Maintainer: Jonas Jaguar <jonasjaguar@jagudev.net>
 pkgname=jagudev-video
-pkgver=1.0
+pkgver=19.06
 pkgrel=1
 pkgdesc="The default video player for JaguOS"
 arch=('x86_64')
