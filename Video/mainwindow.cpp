@@ -216,11 +216,11 @@ void MainWindow::resizeEvent(QResizeEvent *event)
 
 void MainWindow::closeEvent (QCloseEvent *event)
 {
-    delete this;
+    //delete this;
     qApp->exit();
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+    //delete ui;
 }
