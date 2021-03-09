@@ -47,4 +47,4 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
-    repo: jonasjaguar/Video
+    repo: em1lyy/Video
